@@ -1,26 +1,89 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Direct Noct Brand Tokens */
+  --color-noct-obsidian: #0B0C10;
+  --color-noct-surface: #16181F;
+  --color-noct-silver: #F6F6F8;
+  --color-noct-amber: #F59E0B;
+  --color-noct-cyan: #38BDF8;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  /* Default dark midnight canvas */
+  --background: #0B0C10;
+  --foreground: #F6F6F8;
+
+  /* Elevated surface UI */
+  --card: #16181F;
+  --card-foreground: #F6F6F8;
+
+  --popover: #16181F;
+  --popover-foreground: #F6F6F8;
+
+  /* Lunar Silver glow */
+  --primary: #F6F6F8;
+  --primary-foreground: #0B0C10;
+
+  --secondary: #1F222B;
+  --secondary-foreground: #F6F6F8;
+
+  --muted: #1F222B;
+  --muted-foreground: #9499A8;
+
+  --accent: #1F222B;
+  --accent-foreground: #F6F6F8;
+
+  --destructive: #EF4444;
+  --destructive-foreground: #F6F6F8;
+
+  --border: #232733;
+  --input: #232733;
+  --ring: #F59E0B; /* Warm Amber monitor glow */
+
+  --radius: 0.5rem;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-feature-settings: "rlig" 1, "calt" 1;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0B0C10;
+}
+::-webkit-scrollbar-thumb {
+  background: #1E222D;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2D3342;
 }
