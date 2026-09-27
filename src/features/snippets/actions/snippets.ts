@@ -166,3 +166,49 @@ export async function syncSnippetEmbedding(snippetId: string, textToEmbed: strin
     console.error("Embedding sync skipped:", err);
   }
 }
+
+export async function deleteSnippet(snippetId: string) {
+   const supabase = await createClient();
+   const { error } = await supabase.from("snippets").delete().eq("id", snippetId);
+   if (error) throw new Error(error.message);
+   revalidatePath("/vault");
+   return { success: true };
+}
+
+export async function uploadSnippetFiles(
+  snippetId: string,
+  files: { path: string; code: string; language: string }[]
+): Promise<SnippetFile[]> {
+  const supabase = await createClient();
+
+  // 1. Normalize Windows backslashes and remove batch duplicates
+  const uniqueMap = new Map<string, { path: string; code: string; language: string }>();
+  for (const f of files) {
+    const cleanPath = f.path.replace(/\\/g, "/").replace(/^\/+/, "");
+    uniqueMap.set(cleanPath, { ...f, path: cleanPath });
+  }
+
+  const rows = Array.from(uniqueMap.values()).map((f, i) => ({
+    snippet_id: snippetId,
+    file_path: f.path,
+    code: f.code,
+    language: f.language,
+    order_index: i,
+  }));
+
+  if (rows.length === 0) return [];
+
+  // 2. Upsert with exact constraint (no space after comma)
+  const { data, error } = await supabase
+    .from("snippet_files")
+    .upsert(rows, { onConflict: "snippet_id,file_path" })
+    .select();
+
+  if (error) {
+    console.error("Batch upload database error:", error);
+    throw new Error(error.message);
+  }
+
+  return data as SnippetFile[];
+}
+

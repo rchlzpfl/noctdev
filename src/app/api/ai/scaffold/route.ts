@@ -1,6 +1,5 @@
 // src/app/api/ai/scaffold/route.ts
-import { generateObject } from "ai";
-import { openai } from "@ai-sdk/openai";
+import { generateObjectWithFallback } from "@/lib/ai";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
@@ -20,27 +19,22 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Prompt is required" }, { status: 400 });
     }
 
-    const { object } = await generateObject({
-      model: openai("gpt-4o-mini"),
-      schema: z.object({
-        title: z.string().describe("A concise architectural title for the snippet"),
-        description: z.string().describe("Short explanation of how the files work together"),
-        files: z.array(
-          z.object({
-            path: z.string().describe("Virtual file path, e.g., src/routes/stripe.ts"),
-            code: z.string().describe("Full, clean, production-ready code with types"),
-            language: z.string().describe("Monaco language identifier, e.g. typescript, json, sql"),
-          })
-        ),
-      }),
-      prompt: `You are an elite principal software engineer. 
-Scaffold a complete, multi-file production-ready architectural implementation based on this requirement:
-"${prompt}"
+    const scaffoldSchema = z.object({
+      title: z.string().describe("A concise architectural title for the snippet"),
+      description: z.string().describe("Short explanation of how the files work together"),
+      files: z.array(
+        z.object({
+          path: z.string().describe("Virtual file path, e.g. src/Main.java or src/index.ts"),
+          code: z.string().describe("Full production code"),
+          language: z.string().describe("Monaco language mode: java, typescript, python, etc."),
+        })
+      ),
+    });
 
-Rules:
-- Include proper separation of concerns (e.g., config, helper/service, and route/entry point).
-- Use TypeScript strict mode and modern idiomatic patterns.
-- Do not use markdown backticks in the code property; provide pure raw code.`,
+    const { object } = await generateObjectWithFallback({
+      schema: scaffoldSchema,
+      system: `You are an elite software architect. Generate complete, runnable multi-file code based on the user's request. Output valid JSON adhering strictly to the schema.`,
+      prompt: `Scaffold this project: "${prompt}"`,
     });
 
     return NextResponse.json(object);

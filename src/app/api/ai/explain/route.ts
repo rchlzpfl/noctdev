@@ -23,5 +23,10 @@ Keep explanations technical, dense, and formatted in clean markdown.`,
     prompt: `Analyze this ${language} file (${filename}):\n\n\`\`\`${language}\n${code}\n\`\`\``,
   });
 
-  return result.toDataStreamResponse();
+  // Native Web Streams - zero deprecation warnings
+  return new Response(result.textStream, {
+    headers: {
+      "Content-Type": "text/plain; charset=utf-8",
+    },
+  });
 }
