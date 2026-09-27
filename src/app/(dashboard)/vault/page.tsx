@@ -1,7 +1,7 @@
 // src/app/(dashboard)/vault/page.tsx
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import {
   Plus,
@@ -15,17 +15,16 @@ import {
   Trash2,
 } from "lucide-react";
 import {
-  getUserSnippets,
   createSnippet,
   deleteSnippet,
 } from "@/features/snippets/actions/snippets";
 import { Snippet } from "@/types/database.types";
 import { ConfirmDialog } from "@/components/common/confirm-dialog";
 import { useRouter } from "next/navigation";
+import { useSnippets } from "@/lib/hooks/use-cached-data";
 
 export default function VaultGalleryPage() {
-  const [snippets, setSnippets] = useState<Snippet[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { snippets, loading, refreshSnippets } = useSnippets();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newTitle, setNewTitle] = useState("");
   const [newDesc, setNewDesc] = useState("");
@@ -38,18 +37,6 @@ export default function VaultGalleryPage() {
   const [deletingSnippet, setDeletingSnippet] = useState(false);
 
   const router = useRouter();
-
-  useEffect(() => {
-    async function fetchSnippets() {
-      try {
-        const data = await getUserSnippets();
-        setSnippets(data);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchSnippets();
-  }, []);
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -98,7 +85,7 @@ export default function VaultGalleryPage() {
 
     try {
       await deleteSnippet(snippetToDelete.id);
-      setSnippets((prev) => prev.filter((s) => s.id !== snippetToDelete.id));
+      refreshSnippets();
       setSnippetToDelete(null);
     } catch (err) {
       alert("Error deleting workspace: " + (err as Error).message);
