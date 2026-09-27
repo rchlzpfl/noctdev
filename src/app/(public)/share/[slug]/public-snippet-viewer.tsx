@@ -1,4 +1,3 @@
-// src/app/(public)/share/[slug]/public-snippet-viewer.tsx
 "use client";
 
 import { useState, useMemo } from "react";
@@ -22,7 +21,7 @@ interface PublicSnippetViewerProps {
   files: VirtualFile[];
 }
 
-export function PublicSnippetViewer({
+export default function PublicSnippetViewer({
   snippetTitle,
   snippetDescription,
   author,
@@ -109,8 +108,8 @@ export function PublicSnippetViewer({
           tree={tree}
           activeFileId={activeFileId}
           onSelectFile={handleSelectFile}
-          onAddFile={() => {}} // Disabled in public read-only
-          onDeleteFile={() => {}} // Disabled in public read-only
+          onAddFile={() => {}}
+          onDeleteFile={() => {}}
         />
 
         <div className="flex-1 flex flex-col min-w-0 bg-[#0B0C10]">
@@ -130,7 +129,7 @@ export function PublicSnippetViewer({
               <MonacoEditor
                 code={activeFile.content}
                 language={activeFile.language}
-                onChange={() => {}} // Read-only
+                onChange={() => {}}
               />
             ) : (
               <div className="h-full flex items-center justify-center text-xs text-neutral-500 font-mono">
@@ -143,3 +142,6 @@ export function PublicSnippetViewer({
     </div>
   );
 }
+
+// Allows both `import PublicSnippetViewer` and `import { PublicSnippetViewer }`
+export { PublicSnippetViewer };
