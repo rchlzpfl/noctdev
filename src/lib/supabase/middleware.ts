@@ -1,4 +1,3 @@
-// src/lib/supabase/middleware.ts
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
@@ -8,7 +7,6 @@ export async function updateSession(request: NextRequest) {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-  // Gracefully skip session check if env variables are not yet provided
   if (!supabaseUrl || !supabaseAnonKey || !supabaseUrl.startsWith("http")) {
     return supabaseResponse;
   }
@@ -39,10 +37,17 @@ export async function updateSession(request: NextRequest) {
     request.nextUrl.pathname.startsWith("/share") ||
     request.nextUrl.pathname.startsWith("/u");
 
+  // If not logged in and trying to access protected routes, redirect to /login
   if (!user && !isAuthRoute && !isPublicRoute && request.nextUrl.pathname !== "/") {
-    const url = request.nextUrl.clone();
-    url.pathname = "/login";
-    return NextResponse.redirect(url);
+    const loginUrl = new URL("/login", request.url);
+    const redirectResponse = NextResponse.redirect(loginUrl);
+    
+    // Forward the refreshed cookies to the redirect response
+    supabaseResponse.cookies.getAll().forEach((cookie) => {
+      redirectResponse.cookies.set(cookie.name, cookie.value);
+    });
+
+    return redirectResponse;
   }
 
   return supabaseResponse;
