@@ -95,8 +95,8 @@ export default function AuthPage() {
         router.push("/vault");
         router.refresh();
       }
-    } catch (err: any) {
-      setErrorMsg(err.message || "Authentication failed");
+    } catch (err: unknown) {
+      setErrorMsg((err as Error).message || "Authentication failed");
     } finally {
       setLoading(false);
     }
@@ -115,8 +115,8 @@ export default function AuthPage() {
       });
 
       if (error) throw error;
-    } catch (err: any) {
-      setErrorMsg(err.message || `Failed to authenticate with ${provider}`);
+    } catch (err: unknown) {
+      setErrorMsg((err as Error).message || `Failed to authenticate with ${provider}`);
       setLoading(false);
     }
   };

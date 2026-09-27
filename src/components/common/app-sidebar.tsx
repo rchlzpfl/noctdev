@@ -1,7 +1,7 @@
 // src/components/common/app-sidebar.tsx
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Code2, Kanban, AlertTriangle, Sparkles, Terminal, LogOut, Settings } from "lucide-react";
@@ -19,11 +19,9 @@ export function AppSidebar() {
   const pathname = usePathname();
   const router = useRouter();
   const supabase = createClient();
-  const [isMac, setIsMac] = useState(false);
-
-  useEffect(() => {
-    setIsMac(navigator.userAgent.toUpperCase().indexOf("MAC") >= 0);
-  }, []);
+  const [isMac] = useState(() =>
+    typeof navigator !== "undefined" ? navigator.userAgent.toUpperCase().indexOf("MAC") >= 0 : false
+  );
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();

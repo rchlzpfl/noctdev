@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Search, Code2, FileCode, AlertTriangle, X, ArrowRight, Kanban, Settings, Plus } from "lucide-react";
+import { Search, Code2, FileCode, AlertTriangle, X, ArrowRight, Kanban, Settings } from "lucide-react";
 import { searchAll, SearchItem } from "@/features/search/actions/search";
 import { useRouter } from "next/navigation";
 
@@ -11,12 +11,12 @@ export function AppHeader() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchItem[]>([]);
   const [loading, setLoading] = useState(false);
-  const [isMac, setIsMac] = useState(false);
+  const [isMac] = useState(() =>
+    typeof navigator !== "undefined" ? navigator.userAgent.toUpperCase().indexOf("MAC") >= 0 : false
+  );
   const router = useRouter();
 
   useEffect(() => {
-    setIsMac(navigator.userAgent.toUpperCase().indexOf("MAC") >= 0);
-
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();

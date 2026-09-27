@@ -3,7 +3,7 @@
 
 import { useState } from "react";
 import { Highlight } from "@/types/database.types";
-import { Sparkles, RotateCw, CheckCircle2 } from "lucide-react";
+import { RotateCw, CheckCircle2 } from "lucide-react";
 
 export function StarFlashcard({ highlight }: { highlight: Highlight }) {
   const [flipped, setFlipped] = useState(false);

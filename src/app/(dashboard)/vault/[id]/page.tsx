@@ -27,7 +27,6 @@ export default function WorkspacePage({ params }: { params: Promise<{ id: string
   const [files, setFiles] = useState<VirtualFile[]>([]);
   const [activeFileId, setActiveFileId] = useState<string | null>(null);
   const [openTabs, setOpenTabs] = useState<EditorTab[]>([]);
-  const [detectedSecrets, setDetectedSecrets] = useState<number>(0);
   const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Load live files from Supabase database
@@ -76,14 +75,10 @@ export default function WorkspacePage({ params }: { params: Promise<{ id: string
   );
 
   // Real-time secret scanning
-  useEffect(() => {
-    if (!activeFile) {
-      setDetectedSecrets(0);
-      return;
-    }
-    const found = scanCodeForSecrets(activeFile.content);
-    setDetectedSecrets(found.length);
-  }, [activeFile?.content]);
+  const detectedSecrets = useMemo(() => {
+    if (!activeFile) return 0;
+    return scanCodeForSecrets(activeFile.content).length;
+  }, [activeFile]);
 
   const handleSelectFile = (file: VirtualFile) => {
     setActiveFileId(file.id);

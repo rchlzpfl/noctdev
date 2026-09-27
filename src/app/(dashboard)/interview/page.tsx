@@ -89,7 +89,7 @@ export default async function InterviewPage() {
                 </div>
                 <div className="p-2.5 rounded bg-[#0B0C10] border border-white/5 font-mono text-[11px] text-neutral-400">
                   <span className="text-neutral-600 block mb-1">Interview question:</span>
-                  "Tell me about a time you encountered this failure and how you diagnosed it:"
+                  &quot;Tell me about a time you encountered this failure and how you diagnosed it:&quot;
                   <div className="text-red-400 mt-1 truncate">{g.error_message}</div>
                 </div>
                 <div className="text-xs text-emerald-400 font-mono flex items-center gap-1.5">

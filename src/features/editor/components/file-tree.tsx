@@ -358,7 +358,7 @@ export function FileTree({
             <input
               type="file"
               ref={folderInputRef}
-              {...({ webkitdirectory: "", directory: "" } as any)}
+              {...({ webkitdirectory: "", directory: "" } as Record<string, string>)}
               multiple
               className="hidden"
               onChange={handleFileInputChange}

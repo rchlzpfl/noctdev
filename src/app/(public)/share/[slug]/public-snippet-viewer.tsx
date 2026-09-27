@@ -83,7 +83,7 @@ export default function PublicSnippetViewer({
             @{author?.username || "developer"}
           </span>
           <span className="text-neutral-600">/</span>
-          <span className="text-xs font-semibold text-[#F6F6F8] truncate max-w-xs">
+          <span className="text-xs font-semibold text-[#F6F6F8] truncate max-w-xs" title={snippetDescription || undefined}>
             {snippetTitle}
           </span>
         </div>

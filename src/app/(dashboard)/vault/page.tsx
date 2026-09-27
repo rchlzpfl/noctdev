@@ -137,7 +137,7 @@ export default function VaultGalleryPage() {
           <Code2 className="w-10 h-10 text-neutral-600 mb-2" />
           <h3 className="text-sm font-medium text-neutral-300">No Snippets Found</h3>
           <p className="text-xs text-neutral-500 max-w-sm mt-1">
-            Your vault is empty. Click "+ New Workspace" above to spin up your first multi-file environment.
+            Your vault is empty. Click &quot;+ New Workspace&quot; above to spin up your first multi-file environment.
           </p>
         </div>
       ) : (

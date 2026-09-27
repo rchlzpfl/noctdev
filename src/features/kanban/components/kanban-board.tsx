@@ -1,7 +1,7 @@
 // src/features/kanban/components/kanban-board.tsx
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { DragDropContext, DropResult } from "@hello-pangea/dnd";
 import { TaskStatus, Snippet } from "@/types/database.types";
 import {
@@ -12,6 +12,8 @@ import {
 } from "../actions/kanban";
 import { KanbanColumn } from "./kanban-column";
 import { Plus } from "lucide-react";
+
+const emptySubscribe = () => () => {};
 
 const COLUMNS: { id: TaskStatus; title: string; badgeColor: string }[] = [
   { id: "todo", title: "To Do", badgeColor: "#9499A8" },
@@ -25,7 +27,11 @@ interface KanbanBoardProps {
 }
 
 export function KanbanBoard({ initialTasks, availableSnippets }: KanbanBoardProps) {
-  const [mounted, setMounted] = useState(false);
+  const mounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
   const [tasks, setTasks] = useState<TaskWithSnippet[]>(initialTasks);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -35,11 +41,6 @@ export function KanbanBoard({ initialTasks, availableSnippets }: KanbanBoardProp
   const [status, setStatus] = useState<TaskStatus>("todo");
   const [snippetId, setSnippetId] = useState<string>("");
   const [submitting, setSubmitting] = useState(false);
-
-  // Prevent SSR hydration mismatch with drag & drop
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const handleDragEnd = async (result: DropResult) => {
     const { source, destination, draggableId } = result;
@@ -52,7 +53,6 @@ export function KanbanBoard({ initialTasks, availableSnippets }: KanbanBoardProp
       return;
     }
 
-    const sourceStatus = source.droppableId as TaskStatus;
     const destStatus = destination.droppableId as TaskStatus;
 
     // Optimistic UI Update

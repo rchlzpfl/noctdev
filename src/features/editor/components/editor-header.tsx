@@ -2,7 +2,7 @@
 "use client";
 
 import { useState } from "react";
-import { Copy, Check, Download, Layers } from "lucide-react";
+import { Copy, Check, Download } from "lucide-react";
 import { detectLanguageByFilename } from "../lib/language-detector";
 import { VirtualFile } from "@/types/editor.types";
 import { exportWorkspaceToZip } from "@/features/snippets/lib/zip-exporter";
