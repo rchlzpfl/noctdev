@@ -19,6 +19,9 @@ import {
   KeyRound,
 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
+import noctdevLogo from "@/resources/images/noctdevmainlogo.jpeg";
+import woodApplesLogoText from "@/resources/images/woodApplesLogoText.png";
 
 export default function SettingsPage() {
   const [loading, setLoading] = useState(true);
@@ -176,11 +179,21 @@ export default function SettingsPage() {
     <div className="p-8 max-w-5xl mx-auto space-y-8">
       {/* Header */}
       <div className="flex items-center justify-between border-b border-[#232733] pb-4">
-        <div>
-          <h1 className="text-xl font-bold tracking-tight text-[#F6F6F8]">Settings & Preferences</h1>
-          <p className="text-xs text-neutral-400 mt-1">
-            Configure your developer showcase, Monaco editor, AI engines, and account security.
-          </p>
+        <div className="flex items-center gap-3.5">
+          <div className="relative w-11 h-11 rounded-xl overflow-hidden border border-[#232733] bg-[#16181F] shrink-0 shadow-md shadow-[#F59E0B]/5">
+            <Image
+              src={noctdevLogo}
+              alt="NoctDev Logo"
+              fill
+              className="object-cover"
+            />
+          </div>
+          <div>
+            <h1 className="text-xl font-bold tracking-tight text-[#F6F6F8]">Settings & Preferences</h1>
+            <p className="text-xs text-neutral-400 mt-0.5">
+              Configure your developer showcase, Monaco editor, AI engines, and account security.
+            </p>
+          </div>
         </div>
 
         {savedSuccess && (
@@ -558,6 +571,46 @@ export default function SettingsPage() {
           </form>
         </div>
       )}
+
+      {/* Organization & Platform Branding */}
+      <div className="p-6 bg-[#16181F] border border-[#232733] rounded-xl flex flex-col md:flex-row items-center justify-between gap-6 shadow-md">
+        <div className="flex items-center gap-4">
+          <div className="relative w-12 h-12 rounded-xl overflow-hidden border border-white/10 bg-black/40 shrink-0">
+            <Image
+              src={noctdevLogo}
+              alt="NoctDev App Logo"
+              fill
+              className="object-cover"
+            />
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-bold text-[#F6F6F8]">NoctDev Platform</span>
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#F59E0B]/10 text-[#F59E0B] border border-[#F59E0B]/20">
+                v1.0.0
+              </span>
+            </div>
+            <p className="text-xs text-neutral-400 mt-1">
+              Engineered for developer productivity, STAR interviewing, and code vault management.
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-4 pl-0 md:pl-6 border-t md:border-t-0 md:border-l border-[#232733] pt-4 md:pt-0 w-full md:w-auto justify-between md:justify-end">
+          <div className="text-right">
+            <span className="block text-[10px] font-mono uppercase text-neutral-500 tracking-wider">Created By</span>
+            <span className="text-xs font-semibold text-neutral-300">WoodApples</span>
+          </div>
+          <div className="relative h-9 w-28 overflow-hidden flex items-center bg-black/40 px-3 py-1 rounded-lg border border-white/10">
+            <Image
+              src={woodApplesLogoText}
+              alt="WoodApples Logo"
+              className="object-contain h-6 w-auto"
+              height={24}
+            />
+          </div>
+        </div>
+      </div>
 
       {/* Account Info Pill */}
       <div className="p-4 bg-[#16181F]/50 border border-[#232733] rounded-xl flex flex-col md:flex-row md:items-center justify-between text-xs text-neutral-400 gap-2">

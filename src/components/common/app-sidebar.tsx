@@ -7,6 +7,9 @@ import { usePathname, useRouter } from "next/navigation";
 import { Code2, Kanban, AlertTriangle, Sparkles, Terminal, LogOut, Settings } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 
+import Image from "next/image";
+import noctdevLogo from "@/resources/images/noctdevmainlogo.jpeg";
+
 const navigation = [
   { name: "Code Vault", href: "/vault", icon: Code2 },
   { name: "Kanban Board", href: "/kanban", icon: Kanban },
@@ -35,8 +38,13 @@ export function AppSidebar() {
   return (
     <aside className="w-64 border-r border-[#232733] bg-[#0B0C10] flex flex-col shrink-0 h-screen sticky top-0 select-none">
       <div className="h-16 flex items-center px-6 border-b border-[#232733] gap-3">
-        <div className="p-2 rounded-lg bg-[#16181F] border border-white/5 text-[#F59E0B]">
-          <Terminal className="w-4 h-4" />
+        <div className="relative w-8 h-8 rounded-lg overflow-hidden border border-white/10 bg-black/40 shrink-0 shadow-sm shadow-[#F59E0B]/10">
+          <Image
+            src={noctdevLogo}
+            alt="NoctDev Logo"
+            fill
+            className="object-cover"
+          />
         </div>
         <div>
           <span className="font-bold tracking-tight text-sm text-[#F6F6F8]">NOCTDEV</span>

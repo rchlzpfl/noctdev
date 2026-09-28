@@ -9,6 +9,8 @@ import { MonacoEditor } from "@/features/editor/components/monaco-editor";
 import { EditorHeader } from "@/features/editor/components/editor-header";
 import { Terminal, Shield } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
+import noctdevLogo from "@/resources/images/noctdevmainlogo.jpeg";
 
 interface PublicSnippetViewerProps {
   snippetTitle: string;
@@ -72,9 +74,14 @@ export default function PublicSnippetViewer({
       {/* Public Header */}
       <header className="h-14 border-b border-[#232733] bg-[#0B0C10] px-6 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Link href="/login" className="flex items-center gap-2">
-            <div className="p-1.5 rounded-lg bg-[#16181F] border border-white/5 text-[#F59E0B]">
-              <Terminal className="w-4 h-4" />
+          <Link href="/login" className="flex items-center gap-2.5">
+            <div className="relative w-7 h-7 rounded-lg overflow-hidden border border-white/10 shrink-0">
+              <Image
+                src={noctdevLogo}
+                alt="NoctDev Logo"
+                fill
+                className="object-cover"
+              />
             </div>
             <span className="font-bold text-sm tracking-tight">NOCTDEV</span>
           </Link>

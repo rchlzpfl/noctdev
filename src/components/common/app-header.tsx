@@ -5,6 +5,8 @@ import { useState, useEffect } from "react";
 import { Search, Code2, FileCode, AlertTriangle, X, ArrowRight, Kanban, Settings } from "lucide-react";
 import { searchAll, SearchItem } from "@/features/search/actions/search";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import noctdevLogo from "@/resources/images/noctdevmainlogo.jpeg";
 
 export function AppHeader() {
   const [open, setOpen] = useState(false);
@@ -73,6 +75,14 @@ export function AppHeader() {
           <div className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-[#16181F] border border-white/5 text-[11px] font-mono text-neutral-400">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
             <span>Connected</span>
+          </div>
+          <div className="relative w-7 h-7 rounded-full overflow-hidden border border-white/10 shrink-0 shadow-sm">
+            <Image
+              src={noctdevLogo}
+              alt="NoctDev App Logo"
+              fill
+              className="object-cover"
+            />
           </div>
         </div>
       </header>

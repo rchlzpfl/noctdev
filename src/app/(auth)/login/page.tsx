@@ -5,6 +5,9 @@ import { createClient } from "@/lib/supabase/client";
 import { Terminal, AlertCircle, CheckCircle2, Lock, Mail, User } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import noctdevLogo from "@/resources/images/noctdevmainlogo.jpeg";
+import woodApplesLogoText from "@/resources/images/woodApplesLogoText.png";
 
 // Official GitHub Vector
 function GithubIcon({ className = "w-4 h-4" }: { className?: string }) {
@@ -129,9 +132,15 @@ export default function AuthPage() {
         <div className="absolute -bottom-16 -left-16 w-36 h-36 bg-[#38BDF8]/10 rounded-full blur-3xl pointer-events-none" />
 
         {/* Brand Header */}
-        <div className="flex items-center gap-3 mb-6">
-          <div className="p-2.5 rounded-xl bg-black/40 border border-white/10 text-[#F59E0B]">
-            <Terminal className="w-5 h-5" />
+        <div className="flex items-center gap-3.5 mb-6">
+          <div className="relative w-11 h-11 rounded-xl overflow-hidden border border-white/15 bg-black/60 shadow-md shadow-[#F59E0B]/10 shrink-0">
+            <Image
+              src={noctdevLogo}
+              alt="NoctDev Logo"
+              fill
+              className="object-cover"
+              priority
+            />
           </div>
           <div>
             <h1 className="text-xl font-bold tracking-tight text-[#F6F6F8]">NOCTDEV</h1>
@@ -291,12 +300,23 @@ export default function AuthPage() {
           </button>
         </div>
 
-        {/* Direct Dev Bypass */}
-        <div className="mt-6 pt-4 border-t border-white/5 text-center">
+        {/* Company Branding & Dev Bypass */}
+        <div className="mt-6 pt-4 border-t border-white/5 flex flex-col items-center justify-center gap-3">
+          <div className="flex items-center justify-center gap-2 text-[11px] text-neutral-400 font-mono">
+            <span>Powered by</span>
+            <div className="relative h-5 w-24 overflow-hidden flex items-center">
+              <Image
+                src={woodApplesLogoText}
+                alt="WoodApples Logo"
+                className="object-contain h-5 w-auto brightness-90 hover:brightness-100 transition-all"
+                height={20}
+              />
+            </div>
+          </div>
           <button
             type="button"
             onClick={() => router.push("/vault")}
-            className="text-[11px] text-neutral-500 hover:text-neutral-300 font-mono cursor-pointer"
+            className="text-[11px] text-neutral-500 hover:text-neutral-300 font-mono cursor-pointer transition-colors"
           >
             [Dev Bypass: Enter Workspace Directly &rarr;]
           </button>
